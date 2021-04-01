@@ -43,7 +43,7 @@
 			first_click = false;
 
 			let frequency_samples = 256; // Y resolution
-			let DATA = new Uint8Array(frequency_samples); // for later
+			let DATA = new Uint8Array(frequency_samples);
 			let camera, scene, renderer;
 			let heights, mesh;
 			let time_samples = 700; // X resolution
@@ -68,7 +68,7 @@
 			let ysize = 20;
 			let xhalfSize = xsize/2;
 			let yhalfSize = ysize / 2;
-			let xsegmentSize = xsize / xsegments; //Size of one square
+			let xsegmentSize = xsize / xsegments; 
 			let ysegmentSize = ysize / ysegments;
 
 			init();
@@ -88,12 +88,12 @@
 
 			// generate vertices for a simple grid geometry
 			for (let i = 0; i <= xsegments; i ++ ) {
-				let x = ( i * xsegmentSize ) - xhalfSize; //midpoint of mesh is 0,0
+				let x = ( i * xsegmentSize ) - xhalfSize; 
 				for ( let j = 0; j <= ysegments; j ++ ) {
 					let powr = (ysegments-j)/ysegments*ypow_max;
 					let y = -Math.pow(ybase, powr) + yhalfSize + 1;
 					vertices.push( x, y, 0);
-					heights.push(0); // no longer flat
+					heights.push(0);
 			}
 		}
 			// convert heights to a Uint8array
@@ -102,17 +102,6 @@
 			// Add the position data to the geometry buffer
 			geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
 			geometry.setAttribute( 'displacement', new THREE.Uint8BufferAttribute( heights, 1 ) );
-
-
-			// generate indices (data for element buffer). This says where each triangle goes
-			// the code might look complex, but it is essentially the way you tile the plane with
-			// triangles. Each square segment has 4 vertices, a, b, c, d. Which make 2 triangles.
-			// a  b
-			// d  c
-			// Looking above, we can make a triangle by connecting a b d
-			// a-b
-			// d
-			// and similarly for b c d. These make the two faces of our mesh segment.
 
 			for (let i = 0; i < xsegments; i ++ ) {
 				for ( let j = 0; j < ysegments; j ++ ) {
